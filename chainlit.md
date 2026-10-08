@@ -1,7 +1,7 @@
-# Ask AMAN HR
+# AI Knowledge Assistant
 
-Bilingual RAG assistant for HR and onboarding questions.
+Ask questions over your own documents in English or Arabic.
 
 Use the settings panel to switch between **Naive RAG** and **Advanced RAG**.
 
-Answers are generated only from retrieved document passages. If the guide does not contain the answer, the assistant will say so.
+Answers are generated only from retrieved passages. If the documents do not contain the answer, the assistant will say so.

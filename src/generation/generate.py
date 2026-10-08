@@ -20,7 +20,8 @@ def generate_answer(query):
         context_text += f"\n--- Context Source: {doc['source']} ---\n{doc['content']}\n"
         
     system_instruction = (
-        "You are a helpful HR assistant. Answer the user's question using ONLY the provided contexts below. "
+        "You are a helpful assistant for answering questions from an organization's documents. "
+        "Answer the user's question using ONLY the provided contexts below. "
         "Do not use external knowledge. If the answer is not contained within the contexts, reply with: "
         "'Information not found in the guide.' "
         "Ensure you answer in the same language as the user's question (either English or Arabic)."

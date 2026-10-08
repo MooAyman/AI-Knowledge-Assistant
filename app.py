@@ -42,7 +42,7 @@ async def start():
 
     await cl.Message(
         content=(
-            "Ask AMAN HR is ready.\n\n"
+            "AI Knowledge Assistant is ready.\n\n"
             f"Current pipeline: **{DEFAULT_PIPELINE}**\n"
             "Use the settings panel to switch between Naive RAG and Advanced RAG."
         )

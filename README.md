@@ -1,16 +1,26 @@
-# Ask AMAN HR
+# AI Knowledge Assistant
 
-Bilingual (English / Arabic) Retrieval-Augmented Generation assistant for HR and onboarding questions.
+A reusable English/Arabic Retrieval-Augmented Generation system for questions over a local document collection.
 
-Policy answers usually live in a long handbook, so people hunt through pages for working hours, attendance, tracks, and evaluation rules. This project turns a local handbook into a grounded Q&A assistant: retrieve the relevant passages first, then answer only from those passages, in the same language as the question.
+Organizations often keep answers in long handbooks, policies, manuals, and FAQs. This project turns those files into a grounded Q&A assistant: retrieve the relevant passages first, then answer only from those passages, in the same language as the question.
 
-This is Week 2 of an applied AI engineering track. It compares a naive RAG baseline with an advanced pipeline, and measures both with RAGAS.
+It compares a **Naive RAG** baseline with an **Advanced RAG** pipeline and measures both with RAGAS.
 
-The original knowledge base used during development is **not published**. Clone the repo, add your own `.docx` handbook, and rebuild the index locally.
+Bring your own documents. The knowledge base used during development is not included.
+
+## What it is for
+
+Use it on internal material such as:
+
+- HR documents and company policies
+- Manuals, guides, and procedures
+- FAQs and internal knowledge bases
+- Bilingual (Arabic/English) organizational documents
+- Other internal business documentation
 
 ## What it does
 
-- Answers HR / onboarding questions from a local knowledge base
+- Answers questions from a local knowledge base you provide
 - Replies in the same language as the question (English or Arabic)
 - Refuses to guess when the answer is not in the retrieved context
 - Lets you switch between **Naive RAG** and **Advanced RAG** in a Chainlit UI
@@ -18,7 +28,7 @@ The original knowledge base used during development is **not published**. Clone 
 ## Architecture
 
 ```
-DOCX handbook
+Your DOCX document
   → text extraction
   → chunking
   → embeddings
@@ -28,7 +38,7 @@ DOCX handbook
 
 ### Naive RAG
 
-1. Extract text from a DOCX handbook
+1. Extract text from a DOCX file
 2. Split into overlapping character windows (500 chars, 50 overlap)
 3. Embed with `intfloat/multilingual-e5-small` via Hugging Face
 4. Store vectors in local Qdrant
@@ -46,18 +56,18 @@ DOCX handbook
 
 ## Evaluation (RAGAS)
 
-The published summaries are aggregate scores only. The original question set and retrieved passages are private.
+Published files include aggregate scores only. The original question set and retrieved passages are not in this repository.
 
-Benchmark used during development: **40** questions (20 English, 20 Arabic), **36** answerable, **4** deliberately unanswerable.
+Benchmark used during development: **40** questions (20 English, 20 Arabic), **36** answerable, **4** deliberately unanswerable, on a private bilingual organizational handbook.
 
 | Pipeline     | Faithfulness | Answer relevancy | Context precision | Context recall |
 | ------------ | -----------: | ---------------: | ----------------: | -------------: |
 | Naive RAG    |         0.92 |             0.67 |              0.66 |           0.76 |
 | Advanced RAG |         0.84 |             0.70 |                 — |         **0.97** |
 
-Advanced retrieval improved context recall a lot. Faithfulness did not automatically follow. That gap is the main engineering takeaway: better retrieval is not the same as a better answer.
+Advanced retrieval improved context recall substantially. Faithfulness did not automatically follow. The takeaway: better retrieval is not the same as a better answer.
 
-To run evaluation on your own documents, copy `evaluation/benchmark.example.jsonl` to `evaluation/benchmark.jsonl` and edit the questions.
+To evaluate on your own documents, copy `evaluation/benchmark.example.jsonl` to `evaluation/benchmark.jsonl` and replace the questions with ones that match your corpus.
 
 ## Tech stack
 
@@ -87,20 +97,28 @@ data/processed/                 Generated text, chunks, embeddings (local only)
 data/qdrant/                    Local vector DB (local only)
 ```
 
+## Use your own documents
+
+1. Copy `.env.example` to `.env` and add your API keys. Never commit `.env`.
+2. Place a DOCX file at `data/raw/knowledge_base.docx`, or set `RAW_DOC_PATH` in `.env`.
+3. Build the index (commands below).
+4. Run the Chainlit app and ask questions in English or Arabic.
+5. Optionally copy `evaluation/benchmark.example.jsonl` to `evaluation/benchmark.jsonl` and run RAGAS against your own questions.
+
+Supported source format for ingestion is **DOCX**. Multiple organizations can reuse the same code; only the local files and `.env` paths change.
+
 ## Setup
 
 ```bash
 python -m venv .venv
-.venv\Scripts\activate
+.venv\Scripts\activate   # macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
-copy .env.example .env
+copy .env.example .env   # macOS/Linux: cp .env.example .env
 ```
 
 Fill in `.env`. Never commit that file.
 
 ### Build the knowledge base
-
-Put your handbook at `data/raw/hr_guide.docx` (or set `RAW_DOC_PATH`), then:
 
 ```bash
 python src/ingestion/extract.py
@@ -124,23 +142,24 @@ In the UI settings panel, switch between Naive RAG and Advanced RAG.
 
 ```bash
 copy evaluation\benchmark.example.jsonl evaluation\benchmark.jsonl
+# macOS/Linux: cp evaluation/benchmark.example.jsonl evaluation/benchmark.jsonl
 python evaluation/run_ragas.py
 python evaluation/run_ragas_advanced.py
 ```
 
 ## Privacy
 
-This repository publishes the RAG implementation, not the original handbook.
+This repository publishes the RAG implementation, not any organization's source documents.
 
 Not included:
 
-- Source HR / onboarding documents
+- Source documents
 - Extracted text, chunks, embeddings, and the Qdrant store
 - Full evaluation questions and per-question retrieved contexts
 - API keys
 
-Answers from this assistant are not official HR advice.
+Answers are generated from retrieved passages only and are not official organizational advice.
 
 ## License
 
-Educational / portfolio project.
+Educational / portfolio project. Adapt it to your own documents under your own policies and access controls.

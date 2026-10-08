@@ -2,13 +2,12 @@
 
 RAGAS runners and metric summaries live here.
 
-Private files are kept locally and ignored by git:
+Local files that should not be published:
 
-- `benchmark.jsonl` — full evaluation questions for the original knowledge base
+- `benchmark.jsonl` — evaluation questions for a specific knowledge base
 - `*_results.jsonl` — per-question outputs, including retrieved document text
-- assignment PDFs
 
-To run evaluation on your own corpus, copy `benchmark.example.jsonl` to `benchmark.jsonl` and replace the questions with ones that match your documents.
+To evaluate on your own corpus, copy `benchmark.example.jsonl` to `benchmark.jsonl` and replace the questions with ones that match your documents.
 
 ```bash
 copy evaluation\benchmark.example.jsonl evaluation\benchmark.jsonl

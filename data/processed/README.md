@@ -2,7 +2,7 @@
 
 This folder is generated locally by the ingestion pipeline:
 
-1. Extracted text (`hr_guide.txt` by default)
+1. Extracted text (`knowledge_base.txt` by default)
 2. Naive and structure-aware chunks
 3. Embedded chunk JSON files
 
