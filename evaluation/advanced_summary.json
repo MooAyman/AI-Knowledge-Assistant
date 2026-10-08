@@ -1,0 +1,13 @@
+{
+  "pipeline": "advanced",
+  "total_questions": 40,
+  "answerable_questions": 36,
+  "unanswerable_questions": 4,
+  "failed_questions": 0,
+  "metrics": {
+    "faithfulness": 0.8449074074074073,
+    "answer_relevancy": 0.697509859471782,
+    "context_recall": 0.9722222222222222
+  },
+  "failed_question_ids": []
+}

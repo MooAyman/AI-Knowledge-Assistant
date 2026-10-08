@@ -1,0 +1,12 @@
+{
+  "total_questions": 40,
+  "answerable_questions": 36,
+  "unanswerable_questions": 4,
+  "failed_questions": 0,
+  "metrics": {
+    "faithfulness": 0.9236111111111112,
+    "answer_relevancy": 0.6653145618027562,
+    "context_precision": 0.6631172838897014,
+    "context_recall": 0.7592592592592592
+  }
+}

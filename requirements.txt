@@ -1,0 +1,11 @@
+pypdf
+python-dotenv
+qdrant-client
+openai
+chainlit
+python-docx
+sentence-transformers
+langfuse
+requests
+ragas
+langchain-openai
