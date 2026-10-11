@@ -9,8 +9,15 @@ load_dotenv()
 def generate_answer_from_contexts(query: str, contexts: list[dict]) -> dict:
     context_text = ""
     for doc in contexts:
-        source = doc.get("source") or doc.get("metadata", {}).get("source", "unknown")
-        context_text += f"\n--- Context Source: {source} ---\n{doc['content']}\n"
+        metadata = doc.get("metadata") or {}
+        source = doc.get("source") or metadata.get("source", "unknown")
+        section_title = doc.get("section_title") or metadata.get("section_title")
+
+        header = f"--- Context Source: {source} ---"
+        if section_title:
+            header += f"\nSection Title: {section_title}"
+
+        context_text += f"\n{header}\n{doc['content']}\n"
 
     system_instruction = (
         "You are a helpful assistant for answering questions from an organization's documents. "
